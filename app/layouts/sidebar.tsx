@@ -3,6 +3,7 @@ import {
   Link,
   NavLink,
   Outlet,
+  useNavigation,
 } from "react-router";
 import type { Route } from "../+types/root";
 import { getContacts, type ContactRecord } from "../data";
@@ -15,6 +16,7 @@ export async function loader() {
 
 export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
   const { contacts } = loaderData;
+  const navigation = useNavigation();
   return (
       <>
         <div id="sidebar">
@@ -73,7 +75,11 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
             )}
           </nav>
         </div>
-        <div id="detail">
+        <div id="detail"
+          className={
+            navigation.state === "loading" ? "loading" : ""
+          }
+        >
           <Outlet/>
         </div>
       </>
