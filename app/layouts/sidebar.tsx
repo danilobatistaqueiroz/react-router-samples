@@ -1,12 +1,13 @@
 import {
   Form,
   Link,
+  NavLink,
   Outlet,
 } from "react-router";
 import type { Route } from "../+types/root";
 import { getContacts, type ContactRecord } from "../data";
 
-export async function clientLoader() {
+export async function loader() {
   const contacts = await getContacts();
   return { contacts };
 }
@@ -41,7 +42,16 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
               <ul>
                 {contacts.map((contact:ContactRecord) => (
                   <li key={contact.id}>
-                    <Link to={`contacts/${contact.id}`}>
+                    <NavLink
+                      className={({ isActive, isPending }) =>
+                        isActive
+                          ? "active"
+                          : isPending
+                            ? "pending"
+                            : ""
+                      }
+                      to={`contacts/${contact.id}`}
+                    >
                       {contact.first || contact.last ? (
                         <>
                           {contact.first} {contact.last}
@@ -52,7 +62,7 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
                       {contact.favorite ? (
                         <span>★</span>
                       ) : null}
-                    </Link>
+                    </NavLink>
                   </li>
                 ))}
               </ul>
