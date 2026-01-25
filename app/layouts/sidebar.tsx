@@ -5,6 +5,7 @@ import {
   NavLink,
   Outlet,
   useNavigation,
+  useSubmit,
 } from "react-router";
 import type { Route } from "../+types/root";
 import { getContacts, type ContactRecord } from "../data";
@@ -20,6 +21,8 @@ export async function loader({request,}: Route.LoaderArgs) {
 export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
   const { contacts, q } = loaderData;
   const navigation = useNavigation();
+  const submit = useSubmit();
+  const searching = navigation.location && new URLSearchParams(navigation.location.search).has("q",);
   useEffect(() => {
     const searchField = document.getElementById("q");
     if (searchField instanceof HTMLInputElement) {
@@ -34,16 +37,26 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
           </h1>
           <h1>React Router Contacts</h1>
           <div>
-            <Form id="search-form" role="search">
+            <Form 
+              id="search-form"
+              onChange={(event) => {
+                const isFirstSearch = q === null;
+                submit(event.currentTarget, {
+                  replace: !isFirstSearch,
+                });
+              }}
+              role="search"
+            >
               <input
                 aria-label="Search contacts"
+                className={searching ? "loading" : ""}
                 defaultValue={q || ""}
                 id="q"
                 name="q"
                 placeholder="Search"
                 type="search"
               />
-              <div aria-hidden hidden={true} id="search-spinner" />
+              <div aria-hidden hidden={!searching} id="search-spinner" />
             </Form>
             <Form method="post">
               <button type="submit">New</button>
