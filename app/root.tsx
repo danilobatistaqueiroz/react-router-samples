@@ -14,11 +14,22 @@ export default function App() {
   return <Outlet />;
 }
 
+// defines the HTTP headers to be sent with the response when server rendering
+export function headers() {
+  return {
+    "X-Stretchy-Pants": "its for fun",
+    "Cache-Control": "max-age=300, s-maxage=3600",
+  };
+}
+
+//executa mutations
+//https://reactrouter.com/start/framework/route-module
 export async function action() {
   const contact = await createEmptyContact();
   return redirect(`/contacts/${contact.id}/edit`);
 }
 
+//apresenta o conteudo de HydrateFallback durante a execução de clientLoader, apos isso, apresenta o conteudo do componente.
 export function HydrateFallback() {
   return (
     <div id="loading-splash">
@@ -27,6 +38,26 @@ export function HydrateFallback() {
     </div>
   );
 }
+
+// ##################### Middleware ####################################
+//executado antes e depois do documento, e data requests
+// async function loggingMiddleware(
+//   { request, context },
+//   next,
+// ) {
+//   console.log(
+//     `${new Date().toISOString()} ${request.method} ${request.url}`,
+//   );
+//   const start = performance.now();
+//   await next(); // 👈 No Response returned
+//   const duration = performance.now() - start;
+//   console.log(
+//     `logging middleware: ${new Date().toISOString()} (${duration}ms)`,
+//   );
+//   // ✅ No need to return anything
+// }
+// export const clientMiddleware = [loggingMiddleware];
+
 
 // The Layout component is a special export for the root route.
 // It acts as your document's "app shell" for all route components, HydrateFallback, and ErrorBoundary
@@ -48,6 +79,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+// No lugar de apresentar o componente, apresenta o conteudo de ErrorBoundary quando ocorre um erro.
 // The top most error boundary for the app, rendered when your app throws an error
 // For more information, see https://reactrouter.com/start/framework/route-module#errorboundary
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

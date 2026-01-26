@@ -3,6 +3,22 @@ import type { Route } from "./+types/edit-contact";
 
 import { getContact, updateContact } from "../data";
 
+// ################## client middleware ##########################
+// async function authMiddleware({ request, context }) {
+//   const session = await getSession(request);
+//   const userId = session.get("userId");
+
+//   if (!userId) {
+//     throw redirect("/login");
+//   }
+
+//   const user = await getUserById(userId);
+//   context.set(userContext, user);
+// }
+// export const middleware = [authMiddleware];
+// ################## client middleware ##########################
+
+
 export async function loader({ params }: Route.LoaderArgs) {
   const contact = await getContact(params.contactId);
   if (!contact) {

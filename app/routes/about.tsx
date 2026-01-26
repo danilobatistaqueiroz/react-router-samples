@@ -1,5 +1,11 @@
 import { Link } from "react-router";
 
+// client loader hydrate
+// export async function clientLoader() {
+//   // ...
+// }
+// clientLoader.hydrate = true as const;
+
 export default function About() {
   return (
     <div id="about">
