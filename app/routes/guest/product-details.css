@@ -1,0 +1,7 @@
+input[name=name], input[name=description] {
+  display:block;
+  margin-bottom:5px;
+}
+button{
+  margin-right:5px;
+}

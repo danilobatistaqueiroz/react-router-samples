@@ -1,7 +1,7 @@
 import { Form, redirect, useNavigate } from "react-router";
-import type { Route } from "./+types/edit-contact";
+import type { Route } from "../+types/edit-contact";
 
-import { getContact, updateContact } from "../data";
+import { getContact, updateContact } from "../../api/contacts";
 
 // ################## client middleware ##########################
 // async function authMiddleware({ request, context }) {
@@ -31,6 +31,7 @@ export async function action({
   params,
   request,
 }: Route.ActionArgs) {
+  console.log('action, edit',params);
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   await updateContact(params.contactId, updates);

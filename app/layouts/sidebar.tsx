@@ -8,7 +8,7 @@ import {
   useSubmit,
 } from "react-router";
 import type { Route } from "../+types/root";
-import { getContacts, type ContactRecord } from "../data";
+import { getContacts, type ContactRecord } from "../api/contacts";
 
 export async function loader({request,}: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -22,6 +22,7 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
   const { contacts, q } = loaderData;
   const navigation = useNavigation();
   const submit = useSubmit();
+  
   const searching = navigation.location && new URLSearchParams(navigation.location.search).has("q",);
   useEffect(() => {
     const searchField = document.getElementById("q");
@@ -33,9 +34,14 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
       <>
         <div id="sidebar">
           <h1>
-            <Link to="about">React Router Contacts</Link>
+            <Link to={`products`}>Products {count}</Link>
           </h1>
-          <h1>React Router Contacts</h1>
+          <h1>
+            <Link to="about">About</Link>
+          </h1>
+          <h1>
+            <Link to="/">React Router Contacts</Link>
+          </h1>
           <div>
             <Form 
               id="search-form"

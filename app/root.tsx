@@ -8,10 +8,12 @@ import {
 
 import appStylesHref from "./app.css?url";
 import type { Route } from "./+types/root";
-import { createEmptyContact } from "./data";
+import { createEmptyContact } from "./api/contacts";
 
 export default function App() {
-  return <Outlet />;
+  return <>
+    <Outlet />
+  </>;
 }
 
 // defines the HTTP headers to be sent with the response when server rendering

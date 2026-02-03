@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "name": "xiomix",
+    "description": "cellphone"
+  },
+  {
+    "id": 2,
+    "name": "iphone",
+    "description": "super cellphone"
+  },
+  {
+    "id": 3,
+    "name": "samsung",
+    "description": "awesome phone"
+  }
+]

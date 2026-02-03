@@ -1,7 +1,7 @@
-import { Form, useFetcher } from "react-router";
-import type { Route } from "./+types/contact";
-import type { ContactRecord } from "../data";
-import { getContact, updateContact } from "../data";
+import { Form, Link, useFetcher, useMatches } from "react-router";
+import type { Route } from "../+types/contact";
+import type { ContactRecord } from "../../api/contacts";
+import { getContact, updateContact } from "../../api/contacts";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const contact = await getContact(params.contactId);
@@ -11,6 +11,10 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { contact };
 }
 
+export const handle = {
+  breadcrumb: () => <Link to="/home/contacts">Contacts</Link>,
+};
+
 export async function action({params,request,}: Route.ActionArgs) {
   const formData = await request.formData();
   return updateContact(params.contactId, {
@@ -19,6 +23,7 @@ export async function action({params,request,}: Route.ActionArgs) {
 }
 
 export default function Contact({loaderData}: Route.ComponentProps) {
+
   const { contact } = loaderData;
   return (
     <div id="contact">

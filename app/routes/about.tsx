@@ -1,12 +1,16 @@
-import { Link } from "react-router";
+import { Link, Outlet, useMatches } from "react-router";
 
 // client loader hydrate
-// export async function clientLoader() {
-//   // ...
-// }
+ export async function clientLoader() {
+   return [1,2,3,4];
+ }
 // clientLoader.hydrate = true as const;
 
 export default function About() {
+  const matches = useMatches();
+  console.log(matches);
+  const parentMatch = matches.find((match) => match.id === 'routes/about');
+  console.log(parentMatch);
   return (
     <div id="about">
       <Link to="/">← Go to demo</Link>
@@ -46,6 +50,8 @@ export default function About() {
           applications with React Router.
         </p>
       </div>
+      
+      <Outlet/>
     </div>
   );
 }
