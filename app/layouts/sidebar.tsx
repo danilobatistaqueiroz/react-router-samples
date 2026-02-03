@@ -9,6 +9,7 @@ import {
 } from "react-router";
 import type { Route } from "../+types/root";
 import { getContacts, type ContactRecord } from "../api/contacts";
+import React from "react";
 
 export async function loader({request,}: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -22,6 +23,8 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
   const { contacts, q } = loaderData;
   const navigation = useNavigation();
   const submit = useSubmit();
+
+  const [count, setCount] = React.useState(0);
   
   const searching = navigation.location && new URLSearchParams(navigation.location.search).has("q",);
   useEffect(() => {
@@ -109,7 +112,7 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
             navigation.state === "loading" ? "loading" : ""
           }
         >
-          <Outlet/>
+          <Outlet context={[count, setCount]}/>
         </div>
       </>
   )

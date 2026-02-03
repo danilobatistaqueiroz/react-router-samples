@@ -3,6 +3,7 @@ import type { Route } from "../+types/contact";
 import { getProduct, updateProduct } from "../../api/products.server";
 import { Form } from "react-router";
 import './product-details.css';
+import { useOutletContext } from "react-router";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const product = await getProduct(params.productId);
@@ -27,6 +28,9 @@ export default function ProductDetails({loaderData}: Route.ComponentProps) {
   const [edition, setEdition] = useState(false); 
   const [name, setName] = useState(product.name);
   const [description, setDescription] = useState(product.description);
+
+  const [count, setCount] = useOutletContext();
+  const increment = () => setCount((c) => c + 1);
 
   const editProduct = () => {
     setEdition(!edition);
@@ -55,6 +59,7 @@ export default function ProductDetails({loaderData}: Route.ComponentProps) {
               <input name="description" type="text" value={description} onChange={handleDescriptionChange}/>
               <button type="button" onClick={()=>setEdition(false)}>Cancel</button>
               <button type="submit">Ok</button>
+              <button onClick={increment}>{count}</button>
             </Form>
         }
     </div>
